@@ -1,0 +1,15 @@
+{% extends "register/base.html"%} {% load crispy_forms_tags%} {% load static %}
+{% block main %}
+
+<div class="row d-flex justify-content-center align-items-center h-100">
+  <div class="col-sm-5 m-3 p-2">
+    <div class="card p-4 ">
+      <h2 class="btn btn-light"><strong>PARENT DETAILS</strong></h2>
+      <hr />
+     
+        <div class=""> {% crispy form %}</div>
+      
+    </div>
+  </div>
+</div>
+{% endblock main %}

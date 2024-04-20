@@ -1,0 +1,23 @@
+{% extends "register/base.html"%} {% load crispy_forms_tags%} {% load static %}
+{% block main %}
+
+<div class="row d-flex justify-content-center align-items-center h-100">
+  <div class="col-sm-5 m-3 p-4">
+    <div class="card p-3 ">
+      <h2 class="btn btn-light"><strong>ADD IMAGE</strong></h2>
+      <hr />
+      {% comment %} <form method="post" enctype="multipart/form-data">
+        <div class="mb-3">{% csrf_token %} {{form|crispy }}</div>
+        <div class="card p-2 text-center">
+          <h4 >
+            <button style="gap:3px" type="submit" class="btn btn-sm btn-primary ">SAVE</button>
+            
+          </h4>
+        </div>
+      </form> {% endcomment %}
+
+    {% crispy form %}
+    </div>
+  </div>
+</div>
+{% endblock main %}

@@ -1,0 +1,95 @@
+{% extends "register/base.html" %} 
+{% block main %}
+{% load static%}
+<div class="row d-flex justify-content-center align-items-center h-100">
+<div class="col-sm-5">
+  <h4>  {{ child_details.child.first_name.capitalize }} {{ child_details.child.middle_name.capitalize }} {{ child_details.child.last_name.capitalize }}  </h4>
+<p class="text-muted text-end ">Date Joined :{{child_details.child.date_created}}</p>
+<hr>
+  <div class="text-center">
+   {% if child_details.image %}
+      <img style="height:20rem; width:20rem; margin:auto; border-radius:150px"  src="{{ child_details.image.url }}">
+
+      <p class="text-end ">  <a class="text-success m-2 text-decoration-none btn-sm btn-light" href="{% url 'add_image' child_image.id %}"><b>Change Image</b></a> </p>
+      {% else %}
+      <img style="height:20rem; width:20rem; margin:auto; border-radius:150px " src="{% static 'register/images/logo2.jpg' %}" alt="PHOTO">
+      <p class="text-end ">
+      <a  href="{% url 'add_image' child_details.id %}" class=" text-danger m-2 text-decoration-none  btn-sm btn-light" ><b>Add Image</b></a> </p>
+      {% endif %} 
+  </div>
+    
+    </div>
+  <div class="col-sm-5">
+    <div class="card p-1 m-1">
+    
+   
+      
+      <table class="table">
+        <tr>
+          <th>Gender:</th>
+          <td>
+            {{ child_details.child.gender }}
+           
+          </td>
+        </tr>
+        <tr>
+          <th>Age:</th>
+          <td>{{ child_details.child.age }} Years</td>
+        </tr>
+        <tr>
+          <th>Local Church:</th>
+          <td>{{ child_details.child.local_church }}</td>
+        </tr>
+        <tr>
+          <th>Church Attendance:</th>
+          <td>{{ child_details.child.attendance_rate }} %</td>
+        </tr>
+          <tr>
+          <th>Church Talent:</th>
+          <td> {{child_details.child.talent}}</td>
+        </tr>
+      </table>
+      <div class="bg-light p-2  text-end">
+
+        <p>
+         
+          <a class=" text-success btn btn-sm btn-light" href="{% url 'edit_child' child_details.child.id %}"><b>Edit details</b></a>
+         
+        </p>
+      </div>
+
+       <div class="card p-1 m-1">
+          <h4>Parent Details</h4>
+
+        <table class="table">
+        <tr>
+          <th> Father Name:</th>
+          <td>
+           {{parent.father_name}}
+          </td>
+        </tr>
+        <tr>
+          <th>Mother Name:</th>
+          <td>{{parent.mother_name}}</td>
+        </tr>
+        <tr>
+          <th>Contact :</th>
+          <td>{{parent.phone_number}}</td>
+        </tr>
+        <tr>
+          <th>Home County:</th>
+          <td>{{parent.home_county}}</td>
+        </tr>
+      </table>
+
+         <p class="text-end">
+         
+          <a class="text-success btn btn-sm btn-light" href="{% url 'parent' parent.id %}"><b>Edit Parent detail</b></a>
+         
+        </p>
+
+       </div>
+    </div>
+  </div>
+</div>
+{% endblock main %}
