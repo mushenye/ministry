@@ -67,16 +67,16 @@ class CalenderEvent (models.Model):
 class Attendance(models.Model):
     date_created=models.DateField(auto_now_add=True)
     activity=models.ForeignKey(CalenderEvent, on_delete=models.CASCADE)
-    child_attendance=models.ForeignKey(Child, on_delete=models.CASCADE)
+    child=models.ForeignKey(Child, on_delete=models.CASCADE)
     in_attendance=models.BooleanField(default=False)
 
 
     def __str__(self):
-        return '{} {}' .format(self.child_attendance.first_name, self.child_attendance.last_name)
+        return '{} {}' .format(self.child.first_name, self.child.last_name)
     
 
 class EventActivity(models.Model):
      date_created=models.DateField(auto_now_add=True)
      activity=models.ForeignKey(CalenderEvent, on_delete=models.CASCADE)
-     church=models.CharField(choices=CHURCH, max_length=20)
+     church=models.CharField(choices=CHURCH, max_length=20, default='KMM')
      event=models.TextField(max_length=200)

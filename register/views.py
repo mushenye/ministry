@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.core.paginator import Paginator
-from register.forms import  CalenderEventForm, EditRegisterForm, ImageForm, ParentForm, RegisterForm
+from register.forms import  CalenderEventForm, EditRegisterForm, EventActivityForm, ImageForm, ParentForm, RegisterForm
 from register.models import Attendance, CalenderEvent, Child, ChildImage, Parent
 
 # Create your views here.
@@ -14,13 +14,15 @@ def add_child(request):
         form =RegisterForm(request.POST)
         if form.is_valid():
             child=form.save()
+            ChildImage.objects.create(child=child)
+            Parent.objects.create(child=child)
             if "save_and_add_another" in request.POST:
-                ChildImage.objects.create(child=child)
-                Parent.objects.create(child=child)
+                
                 return redirect('add')
+            
+            elif 'next' in request.POST:
+                return redirect(request.POST.get('next'))
             else:
-                ChildImage.objects.create(child=child)
-                Parent.objects.create(child=child)
                 return redirect('view_child_details',child.id)
     else:
         form=RegisterForm()
@@ -164,15 +166,52 @@ def create_attendance(request,pk):
     calender_event=CalenderEvent.objects.get(id=pk)
     children=Child.objects.all()
     for child in children:
-        Attendance.objects.get_or_create(activity=calender_event, child=child.id)
+        Attendance.objects.get_or_create(activity=calender_event, child=child)
+     
+    attendance =Attendance.objects.all() 
+    paginator = Paginator(attendance, 8)  
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
-    return redirect()
+    total_child=attendance.count() 
+    present=attendance.filter(in_attendance=True).count()
+    absent=total_child-present
+    rate=int(present/total_child *100)
+    value= (present/total_child)*360
+    return render( request,'register/attendance.html' , {
+        'attendance':attendance,
+        'value':value,
+        'rate':rate, 
+        'page_obj':page_obj, 
+        'absent':absent,
+        'present':present,
+        'total_child' :total_child,
+        })
+
 
 
 
 def mark_attendance(request, pk):
-    calender_event=CalenderEvent.objects.get(id=pk)
-    attendance=Attendance.objects.filter(activity=calender_event)
+    attendance = Attendance.objects.get(id=pk)
+    if attendance.in_attendance:
+        attendance.in_attendance = False
+    else:
+        attendance.in_attendance = True
+    attendance.save()
+    return redirect('create_attendance', attendance.activity.id)
     
 
+    
+    
+
+
+def create_event(request, pk):
+    if request.method =="POST":
+        form =EventActivityForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form=EventActivityForm()
+
+    return render(request,'register/event.htm', {'form':form})
 

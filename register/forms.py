@@ -6,7 +6,7 @@ from django.core.files.base import File
 from django.db.models.base import Model
 from django.forms.utils import ErrorList
 
-from register.models import  CalenderEvent, Child, ChildImage, Parent
+from register.models import  CalenderEvent, Child, ChildImage, EventActivity, Parent
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout,Row, Column, HTML
 from crispy_forms.bootstrap import InlineRadios, FormActions 
@@ -46,6 +46,8 @@ class RegisterForm(forms.ModelForm):
             FormActions(
                 Submit('save', 'Save',css_class='px-4 btn btn-success'),
                 Submit('save_and_add_another', 'Save and Add Another',css_class='px-4 btn btn-warning'),
+                
+                HTML(""" {% if request.GET.next %} <input type="hidden" name="next" value="{{ request.GET.next }}"/> {% endif %}"""),
             )
         )
 
@@ -163,5 +165,26 @@ class CalenderEventForm(forms.ModelForm):
             FormActions(
                 Submit('save', 'Save', css_class='text-center px-4 btn btn-sm btn-success'),
                 Submit('cancel', 'Cancel', css_class='text-center px-4 btn btn-sm btn-warning')
+            )
+        )
+
+
+
+class EventActivityForm(forms.ModelForm):
+    
+    class Meta:
+        model = EventActivity
+        fields = ("event",)
+
+
+    def __init__(self,*args,**kwargs):
+        super(EventActivityForm,self).__init__(*args, **kwargs)
+        self.helper=FormHelper()
+        self.helper.form_method="post"
+        self.helper.layout=Layout(
+            'event',
+            FormActions(
+                Submit('save', 'Save', css_class='text-center px-4 btn btn-sm btn-success'),
+                Submit('add_more', 'Add More Events', css_class='text-center px-4 btn btn-sm btn-warning')
             )
         )

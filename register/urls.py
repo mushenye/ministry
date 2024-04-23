@@ -6,14 +6,17 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='home'),
-    path('add/child',views.add_child, name='add' ),
-    path('view/children',views.view_children, name='view_child' ),
-    path('view/image/detail/<int:pk>',views.add_image, name='add_image' ),
+    path('add/child/',views.add_child, name='add' ),
+    path('view/children/',views.view_children, name='view_child' ),
+    path('view/image/detail/<int:pk>/',views.add_image, name='add_image' ),
     path('view/children/details/<int:pk>',views.view_child_details, name='view_child_details' ),
     path('add/parent/details/<int:pk>',views.add_parent, name='parent' ),
     path('edit/child/details/<int:pk>',views.edit_child_details, name='edit_child' ),
     path('add/calender/event/',views.create_sunday_activity, name='calender' ),
     path('view/calender/event/',views.view_events, name='view_events' ),
+    path('create/attendance/<int:pk>',views.create_attendance, name='create_attendance' ),
+    path('mark_attendance/<int:pk>',views.mark_attendance, name='mark' ),
+
 
 
 
