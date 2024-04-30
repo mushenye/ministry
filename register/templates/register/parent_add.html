@@ -1,15 +1,27 @@
+
 {% extends "register/base.html"%} {% load crispy_forms_tags%} {% load static %}
 {% block main %}
+<div class="row justify-content-center">
+  <div class="col-xl-7 col-lg-8">
+    <div class="section-title text-center">
+      <h3>Parent Registration  </h3> 
+      <p>Kariokor Monthly meeting children Ministry  </p>
+      <hr />
+      <h4> {{parent.child.first_name.capitalize}} {{parent.child.middle_name.capitalize}} {{parent.child.last_name.capitalize}}</h4>
+    </div>
+
+  </div>
+  
+</div>
+
 
 <div class="row d-flex justify-content-center align-items-center h-100">
   <div class="col-sm-5 m-3 p-2">
-    <div class="card p-4 ">
-      <h2 class="btn btn-light"><strong>PARENT DETAILS</strong></h2>
-      <hr />
+   
      
         <div class=""> {% crispy form %}</div>
-      
-    </div>
+    
+
   </div>
 </div>
 {% endblock main %}

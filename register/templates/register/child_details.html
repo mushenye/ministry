@@ -1,7 +1,21 @@
 {% extends "register/base.html" %} 
 {% block main %}
 {% load static%}
-<div class="row d-flex justify-content-center align-items-center h-100">
+
+<div class="row justify-content-center">
+  <div class="col-xl-7 col-lg-8">
+    <div class="section-title text-center">
+      <h3>Child Details    </h3> 
+      <p>Kariokor Monthly meeting children Ministry  </p>
+      <hr />
+    </div>
+
+  </div>
+  
+</div>
+
+
+<div class="row  justify-content-center align-items-center h-100">
 <div class="col-sm-5">
   <h4>  {{ child_details.child.first_name.capitalize }} {{ child_details.child.middle_name.capitalize }} {{ child_details.child.last_name.capitalize }}  </h4>
 <p class="text-muted text-end ">Date Joined :{{child_details.child.date_created}}</p>
@@ -24,7 +38,7 @@
     
    
       
-      <table class="table">
+      <table class="table table-success table-striped">
         <tr>
           <th>Gender:</th>
           <td>
@@ -53,7 +67,7 @@
 
         <p>
          
-          <a class=" text-success btn btn-sm btn-light" href="{% url 'edit_child' child_details.child.id %}"><b>Edit details</b></a>
+          <a class=" text-success btn btn-sm btn-light" href="{% url 'edit_child' child_details.child.slug %}"><b>Edit details</b></a>
          
         </p>
       </div>
@@ -61,7 +75,7 @@
        <div class="card p-1 m-1">
           <h4>Parent Details</h4>
 
-        <table class="table">
+        <table class="table table-warning table-striped">
         <tr>
           <th> Father Name:</th>
           <td>

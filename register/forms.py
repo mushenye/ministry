@@ -45,11 +45,13 @@ class RegisterForm(forms.ModelForm):
             'talent',
             FormActions(
                 Submit('save', 'Save',css_class='px-4 btn btn-success'),
-                Submit('save_and_add_another', 'Save and Add Another',css_class='px-4 btn btn-warning'),
+                Submit('save_and_add_another', 'Save and Add Another',css_class=' mx-4 px-4 btn btn-warning text-end'),
                 
                 HTML(""" {% if request.GET.next %} <input type="hidden" name="next" value="{{ request.GET.next }}"/> {% endif %}"""),
             )
         )
+
+# 
 
 class EditRegisterForm(forms.ModelForm):
     
@@ -61,8 +63,8 @@ class EditRegisterForm(forms.ModelForm):
             'gender': forms.RadioSelect(attrs={"class": "inline li"}),
             'date_of_birth': forms.DateInput(attrs={
                 'class': 'form-control',
-                'readonly': 'readonly',
-                'id': 'datepicker',
+                 'readonly': 'readonly',
+                 'id': 'datepicker',
             }), 
 
         }
@@ -105,8 +107,8 @@ class ImageForm(forms.ModelForm):
         self.helper.layout=Layout(
             'image',
             FormActions(
-                Submit('save', 'Save', css_class='text-center  px-4 btn btn-sm btn-success'),
-                Submit('cancel', 'Cancel' ,css_class='text-center  px-4 btn btn-sm btn-warning')
+                Submit('save', 'Save', css_class='mx-4 px-4 btn btn-sm btn-success'),
+                Submit('cancel', 'Cancel' ,css_class='mx-4 px-4 btn btn-sm btn-warning')
             )
         )
 
@@ -132,7 +134,7 @@ class ParentForm(forms.ModelForm):
             ),
             FormActions(
                 Submit('save', 'Save', css_class='text-center  px-4 btn btn-sm btn-success'),
-                Submit('cancel', 'Cancel' ,css_class='text-center  px-4 btn btn-sm btn-warning')
+                Submit('cancel', 'Cancel' ,css_class='  px-4 btn btn-sm btn-warning text-end')
             )
         )
 
@@ -141,7 +143,7 @@ class CalenderEventForm(forms.ModelForm):
     
     class Meta:
         model = CalenderEvent
-        fields = ("title", "details", "on_date")
+        fields = ("title", "details", "on_date", "slug",)
         widgets = {
             'on_date': forms.DateInput(attrs={
                 'class': 'form-control',
@@ -149,6 +151,7 @@ class CalenderEventForm(forms.ModelForm):
                 'id': 'datepicker',
             }), 
         }
+   
 
     def __init__(self, *args, **kwargs):
         super(CalenderEventForm, self).__init__(*args, **kwargs)
@@ -167,24 +170,36 @@ class CalenderEventForm(forms.ModelForm):
                 Submit('cancel', 'Cancel', css_class='text-center px-4 btn btn-sm btn-warning')
             )
         )
-
+    def clean_slug(self):
+        slug = self.cleaned_data['slug']
+        if CalenderEvent.objects.filter(slug=slug).exists():
+            raise forms.ValidationError("A calendar event with this title already exists.")
+        return slug
 
 
 class EventActivityForm(forms.ModelForm):
     
     class Meta:
         model = EventActivity
-        fields = ("event",)
-
-
+        fields = ("procession_of_events","days_scripture",)
+    
+      
     def __init__(self,*args,**kwargs):
         super(EventActivityForm,self).__init__(*args, **kwargs)
+
         self.helper=FormHelper()
         self.helper.form_method="post"
         self.helper.layout=Layout(
-            'event',
+            'days_scripture',
+            
+            'procession_of_events',
+
             FormActions(
-                Submit('save', 'Save', css_class='text-center px-4 btn btn-sm btn-success'),
-                Submit('add_more', 'Add More Events', css_class='text-center px-4 btn btn-sm btn-warning')
+                Submit('save', 'Save', css_class=' px-4 mx-4 btn btn-sm btn-success'),
+                Submit('add_more', 'Add More Events', css_class='px-4 mx-4 btn btn-sm btn-warning')
             )
         )
+        for key, value in self.fields.items():
+            self.fields['procession_of_events'].help_text ='You can add your day scriptures and day program '
+             
+                

@@ -11,6 +11,8 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
@@ -28,11 +30,11 @@
       href="{% static 'register/css/styles.css'%}"
     />
 
-     <script
+    <script
       src="https://kit.fontawesome.com/35727d43f5.js"
       crossorigin="anonymous"
     ></script>
-  
+
     <!-- Add tkcalendar JavaScript -->
     <script
       type="text/javascript"
@@ -44,85 +46,85 @@
   <body>
     <div class="container">
       <hr />
-      {% if messages %} {% for message in messages %}
-      <div
-        class="alert alert-{{message.tags}} alert-dismissible fade show text-center p-2"
-        role="alert"
+
+      <nav
+        class="navbar top-fixed navbar-expand-lg navbar-light bg-light text-white"
       >
-        {{message}}
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
-          aria-label="Close"
-        ></button>
-      </div>
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Children Ministry</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link  btn btn-sm btn-warning"  href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link  btn btn-sm btn-warning"
+                  href="{% url 'add'%}"
+                  >AddChild</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link btn btn-sm btn-warning" href="{% url 'view_child'%}"
+                  >Children List</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link btn btn-sm btn-warning" href="{% url 'view_events'%}"
+                  >Calendar Event</a
+                >
+              </li>
+            </ul>
+            {% if messages %} {% for message in messages %}
+            <span
+              class="alert alert-{{message.tags}} alert-dismissible fade show text-center p-2"
+              role="alert"
+            >
+              {{message}}
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+              {% endfor %}
+            </span>
 
-      {% endfor %} {% else%}
+            {% else%} {%if user.is_authenticated%} <span class="text-dark"><b>{{request.user }}</b></span>
+            <a class="mx-4 nav-link btn btn-danger px-4 text-dark" href="{% url 'logout' %}"> Log out</a>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <img
-          style="height: 34px"
-          src="{% static 'register/images/logo2.jpg'%}"
-        />
-        {{user.request}}
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarTogglerDemo03"
-          aria-controls="navbarTogglerDemo03"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'home'%}">Home </a>
-            </li>
-            {% if user.is_authenticated %} {{request.user}} {% comment %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'passwordchange'%}"
-                >Change Password</a
-              >
-              {% endcomment %}
-            </li>
-
-            {% comment %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout'%}">logout</a>
-            </li>
-            {% endcomment %} {% else%} {% comment %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'login'%}">login</a>
-            </li>
-            {% endcomment %}
-          </ul>
-
-          {% endif %}
+            {% else%}
+            <a class="nav-link btn btn-success px-4 text-success" href="{% url 'login' %}"> Login</a>
+            <a class="mx-2 nav-link btn btn-warning px-4 text-success" href="{% url 'register' %}"> Register</a>
+            {% endif %} {% endif %}
+          </div>
         </div>
       </nav>
 
-      {% endif %}
-
       <hr />
 
-      <section class="h-100 h-custom p-2" style="background-color: #eee">
+      <section class="p-2" style="background-color: #eee">
         {% block main %} {% endblock main %}
       </section>
     </div>
 
     <script>
       $(function () {
-        $("#datepicker")
-          .datepicker({
-            autoclose: true,
-            todayHighlight: true,
-          })
-          .datepicker("update", new Date());
+        $("#datepicker").datepicker({
+          autoclose: true,
+          todayHighlight: true,
+        });
       });
     </script>
     <script

@@ -6,72 +6,125 @@
     <div class="row justify-content-center">
       <div class="col-xl-7 col-lg-8">
         <div class="section-title text-center">
-          <h2> Calender of Event Schedules</h2>
-          <p>
-            Kariokor Monthly meeting children Ministry
-          </p>
+          <h1>Welcome</h1>
+          <p>Kariokor Monthly meeting children Ministry</p>
         </div>
-        <hr>
+        <hr />
       </div>
     </div>
-    <div class="evt-tab-inner text-center">
-      <ul class="nav nav-tabs" id="ex1" role="tablist">
-        <li class="nav-item" role="presentation">
-          <a
-            class="nav-link active"
-            id="ex1-tab-1"
-            data-toggle="pill"
-            href="#ex1-tabs-1"
-            role="tab"
-            aria-selected="true"
-            ><span>Day 1</span>23 Jun 2020</a
-          >
-        </li>
-        <li class="nav-item" role="presentation">
-          <a
-            class="nav-link"
-            id="ex1-tab-2"
-            data-toggle="pill"
-            href="#ex1-tabs-2"
-            role="tab"
-            aria-selected="false"
-            ><span>Day 2</span>23 Jun 2020</a
-          >
-        </li>
-        <li class="nav-item" role="presentation">
-          <a
-            class="nav-link"
-            id="ex1-tab-3"
-            data-toggle="pill"
-            href="#ex1-tabs-3"
-            role="tab"
-            aria-selected="false"
-            ><span>Day 3</span>23 Jun 2020</a
-          >
-        </li>
-      </ul>
+  </div>
+
+  <hr />
+
+  <nav class="navbar navbar-inverse visible-xs">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button
+          type="button"
+          class="navbar-toggle"
+          data-toggle="collapse"
+          data-target="#myNavbar"
+        >
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Logo</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Dashboard</a></li>
+          <li><a href="#">Age</a></li>
+          <li><a href="#">Gender</a></li>
+          <li><a href="#">Geo</a></li>
+        </ul>
+      </div>
     </div>
-    {% for item in page_obj%}
-    <div class="tab-content" id="ex1-content">
-      <div class="tab-pane fade active show" id="ex1-tabs-1" role="tabpanel">
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row content">
+      <div class="col-sm-3 sidenav hidden-xs">
+        <h2>Logo</h2>
+        <ul class="nav nav-pills nav-stacked">
+          <li class="active"><a href="#section1">Dashboard</a></li>
+          <li><a href="#section2">Age</a></li>
+          <li><a href="#section3">Gender</a></li>
+          <li><a href="#section3">Geo</a></li>
+        </ul>
+        <br />
+      </div>
+      <br />
+
+      <div class="col-sm-9">
+        <div class="well">
+          <h4>Dashboard</h4>
+          <p>Some text..</p>
+        </div>
         <div class="row">
-          <div class="col-lg-4 col-md-6 p-2 m-2 card">
-            <div class="single-schedules-inner">
-              <div class="date">
-                <i class="fa fa-clock-o"></i>
-                {{ item.on_date}}
-              </div>
-              <h5>{{item.title.capitalize}}.</h5>
-              <p>
-               {{item.description.capitalize}}
-              </p>
+          <div class="col-sm-3">
+            <div class="well">
+              <h4>Users</h4>
+              <p>1 Million</p>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="well">
+              <h4>Pages</h4>
+              <p>100 Million</p>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="well">
+              <h4>Sessions</h4>
+              <p>10 Million</p>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="well">
+              <h4>Bounce</h4>
+              <p>30%</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="well">
+              <p>Text</p>
+              <p>Text</p>
+              <p>Text</p>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="well">
+              <p>Text</p>
+              <p>Text</p>
+              <p>Text</p>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="well">
+              <p>Text</p>
+              <p>Text</p>
+              <p>Text</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8">
+            <div class="well">
+              <p>Text</p>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="well">
+              <p>Text</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    {% endfor %}
+
+    {% endblock main %}
   </div>
 </div>
-
-{% endblock main %}

@@ -1,29 +1,22 @@
-
-
 {% extends "register/base.html"%} {% load crispy_forms_tags%} {% load static %}
 {% block main %}
 <div class="row justify-content-center">
   <div class="col-xl-7 col-lg-8">
     <div class="section-title text-center">
-      <h3>Child Image   </h3> 
-      <p>Kariokor Monthly meeting children Ministry  </p>
+      <h3>Calender of Event Schedules  - {{calendar.title.capitalize}}</h3> <h3>Day's Event</h3>
+      <p>Kariokor Monthly meeting children Ministry {{calendar.on_date}} </p>
       <hr />
-      <h3>{{image.child.first_name.capitalize}} {{image.child.middle_name.capitalize}} {{image.child.last_name.capitalize}}</h3>
     </div>
 
   </div>
   
 </div>
-
-
 <div class="row d-flex justify-content-center align-items-center h-100">
-  <div class="col-sm-5 m-3 p-2">
-   
-     
-        <div class=""> {% crispy form %}</div>
-    
+  <div class="col-sm-7 m-3 p-2">
       
-   
+
+      {% crispy form %}
+    
   </div>
 </div>
 {% endblock main %}

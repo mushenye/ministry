@@ -1,89 +1,166 @@
+{% extends "register/base.html" %} {% block main %}
+<div class="schedules-area pd-top-110 pd-bottom-120">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-7 col-lg-8">
+        <div class="section-title text-center">
+          <h2>Children List</h2>
+          <p>Kariokor Monthly meeting children Ministry</p>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-sm-4 my-2 ">
+            <a href="{% url 'add' %}" class="btn btn-sm btn-warning my-2" >Add child </a>
+            <form method="get">
+              <div class="dropdown">
+                <button
+                  class="btn btn-primary btn-sm dropdown-toggle"
+                  type="button"
+                  id="filterMenu"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  choose local church
+                </button>
+                <div class="dropdown-menu my-2" aria-labelledby="filterMenu">
+                  {% csrf_token %} {% for code, label in churches %}
+                  <button
+                    type="submit"
+                    name="local_code"
+                    value="{{ code }}"
+                    class="dropdown-item"
+                  >
+                    {{ label }}
+                  </button>
+                  {% endfor %}
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-sm-8">
+            <table class="table table-danger table-striped">
+              <tbody>
+              <tr>
+                <th>Overall Total:</th>
 
-{% extends "register/base.html" %} 
-{% block main %}
-<section class="h-100 h-custom p-2" style="background-color: #eee">
-{% comment %} <p class="text-end"> <a href="{% url 'members-list' %}" class="btn btn-sm btn-light"> View Members 
+                <td>{{total}}</td>
+                
+              </tr>
+              {% if query %}
 
-  <a href="{% url 'register_person'%}" class="btn btn-sm btn-light m-2"> Register </a> </p> {% endcomment %}
-  <div class="card text-center p-2 m-2"
-              <h2 class=" text-center btn btn-outline-light text-center t" style="color: blue;"><strong class="text-center">CHILDREN MINISTRY LIST</strong></h2>
-</div>
+              <tr>
+                <th> children in {{query}}</th>
+                <td>{{count}}</td>
+              </tr>
+              <tr>
+                <th>Percentage </th>
+                <td>{{percent}} %</td>
+              </tr>
+
+              {% endif %}
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="table table-success table-striped">
+      <thead>
+        <tr>
+          {% comment %}
+          <th scope="col"><small>S/no</small></th>
+          {% endcomment %}
+          <th scope="col">
+            Name
+            <span class="mx-4 text-muted text-danger fst-italic"
+              ><small>(Select to view child details) </small></span
+            >
+          </th>
+
+          <th scope="col">Local Church</th>
+
+          <th scope="col">Age</th>
+
+          <th scope="col">Attendance Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for child in page_obj %}
+        <tr>
+          {% comment %}
+          <td scope="row"><small>{{ forloop.counter }}</small></td>
+          {% endcomment %}
+          <td>
+            <a
+              class="mx-3 text-decoration-none text-dark"
+              href="{% url 'view_child_details'  child.slug %}"
+              ><small>
+                <b
+                  >{{ child.first_name.capitalize }}
+                  {{child.middle_name.capitalize}}
+                  {{child.last_name.capitalize}}</b
+                >
+              </small></a
+            >
+          </td>
+          <td><small>{{ child.local_church}}</small></td>
+          <td><small>{{ child.age}}</small></td>
+          <td>{{child.rate}} %</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-sm-5">
+      </div>
+      <div class="col-sm-5">
+    <div class="pagination bg-light text-center p-2 mt-5 text-white">
+      <span class="step-links text-center">
+        {% comment %} {% if is_paginated %}  {% endcomment %}
+         {% if page_obj.has_previous %}
+        <a class="btn btn-sm btn-outline-info mb-4 text-dark" href="?page=1"
+          ><small> First</small></a
+        >
+        <a
+          class="btn btn-sm btn-outline-info mb-4 text-dark"
+          href="?page={{page_obj.previous_page_number}}"
+        >
+          <small>Previous</small>
+        </a>
+        {% endif %} {% for num in page_obj.paginator.page_range %} 
+        {% if page_obj.number == num %}
+
+        <a class="btn btn-sm btn-info mb-4 text-dark" href="?page={{ num }}"
+          ><small>{{ num }}</small></a
+        >
+
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
+        <a
+          class="btn btn-sm btn-outline-info mb-4 text-dark"
+          href="?page={{num }}"
+          ><small>{{ num }}</small></a
+        >
+        {% endif %} {% endfor %} {% if page_obj.has_next %}
+        <a
+          class="btn btn-sm btn-outline-info mb-4 text-dark"
+          href="?page={{page_obj.next_page_number}}"
+          ><small>Next</small></a
+        >
+        <a
+          class="btn btn-sm btn-outline-info mb-4 text-dark"
+          href="?page={{ page_obj.paginator.num_pages}}"
+          ><small>Last</small></a
+        >
+        {% endif %} 
+        {% comment %} {% endif %}  {% endcomment %}
+      </span>
+    </div>
+        </div>
+    </div>
 
 
-  <table class="table">
-    <thead>
-      <tr>
-        {% comment %} <th scope="col"><small>S/no</small></th> {% endcomment %}
-        <th scope="col"><small>Name</small></th>
-        <th scope="col"><small>Local Church</small></th>
-    
-        <th scope="col"><small>Age</small></th>
-    
-         <th scope="col"><small>Attendance Rate</small></th> 
-      </tr>
-    </thead>
-    <tbody>
-      {% for child in page_obj %}
-      <tr>
-        {% comment %} <td scope="row"><small>{{ forloop.counter }}</small></td> {% endcomment %}
-        <td>
-          <a
-            class="text-decoration-none"
-        href="{% url 'view_child_details' child.id %}"
-            ><small
-              >{{ child.first_name.capitalize }} 
-              {{child.middle_name.capitalize}}
-              {{child.last_name.capitalize}}
-              </small
-            ></a
-          >
-        </td>
-        <td><small>{{ child.local_church}}</small></td>
-            <td><small>{{ child.age}}</small></td>
-          <td>   {{child.attendance_rate}} % </td>
-   
-
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-<div class="pagination  bg-light text-center p-2 mt-5 text-white">
-    <span class="step-links text-center">
-      {% comment %} {% if is_paginated %}  {% endcomment %}
-      {% if page_obj.has_previous %}
-      <a class="btn btn-sm btn-outline-info mb-4 text-dark" href="?page=1"><small> First</small></a>
-      <a
-        class="btn btn-sm  btn-outline-info mb-4 text-dark"
-        href="?page={{page_obj.previous_page_number}}"
-        >  <small>Previous</small>
-      </a>
-      {% endif %} {% for num in page_obj.paginator.page_range %} 
-      {% if page_obj.number == num %}
-
-      <a class="btn btn-sm btn-info mb-4 text-dark" href="?page={{ num }}"
-        ><small>{{ num }}</small></a
-      >
-
-      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
-      <a class="btn btn-sm btn-outline-info mb-4 text-dark" href="?page={{num }}"
-        ><small>{{ num }}</small></a
-      >
-      {% endif %} {% endfor %} {% if page_obj.has_next %}
-      <a
-        class="btn btn-sm btn-outline-info mb-4 text-dark"
-        href="?page={{page_obj.next_page_number}}"
-        ><small>Next</small></a
-      >
-      <a
-        class="btn btn-sm btn-outline-info mb-4 text-dark"
-        href="?page={{ page_obj.paginator.num_pages}}"
-        ><small>Last</small></a
-      >
-      {% endif %} 
-      {% comment %} {% endif %} {% endcomment %}
-    </span>
+    {% endblock main %}
   </div>
-
-
-</section>
-{% endblock main %}
+</div>
