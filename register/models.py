@@ -15,7 +15,7 @@ class Child(models.Model):
     last_name=models.CharField(max_length=100)
     date_of_birth=models.DateField(max_length=100)
     local_church=models.CharField(choices=CHURCH, max_length=100)
-    attendance_rate=models.IntegerField(default=1)
+    attendance_rate=models.IntegerField(default=0)
     gender=models.CharField(choices=GENDER,max_length=10, default='Boy')
     talent=models.CharField(choices=TALENT,max_length=20, blank=True,null=True)
     slug=models.SlugField(blank=True, null=True, unique=True)
@@ -31,7 +31,7 @@ class Child(models.Model):
             self.slug = base_slug
             if Child.objects.filter(slug=self.slug).exists():
                 self.slug = f'{base_slug}-{uuid.uuid4().hex[:6]}'
-            return super().save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
 
     def age(self):

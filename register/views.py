@@ -4,7 +4,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.views.generic.list import ListView
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 from register.choices import CHURCH
 from register.forms import  CalenderEventForm, EditRegisterForm, EventActivityForm, ImageForm, ParentForm, RegisterForm
 from register.models import Attendance, CalenderEvent, Child, ChildImage, Parent
@@ -92,53 +92,43 @@ def add_image(request, pk):
     return render(request, 'register/add_image.html', {'form': form, 'image':image})
 
 
-
-# class ChildrenListView(ListView):
-#     model = Child
-#     template_name = 'register/view.html'
-#     context_object_name = "children"
-#     paginate_by = 6
-
-
-#     def get_queryset(self):
-#         local_church = self.request.GET.get('local_church')
-#         queryset = Child.objects.all() 
-        
-#         if local_church:
-#             queryset = queryset.filter(local_church=local_church)
-        
-#         return queryset
-    
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['local_churches'] = CHURCH
-        
-#         return context
     
 
 def child_view(request):
     churches = CHURCH  
-    children = Child.objects.all()
-    total=children.count()
-
     query = request.GET.get("local_code")
-
-    if query:
-        children = children.filter(local_church=query)
-    
-
-    paginator = Paginator(children, 8)
     page_number = request.GET.get("page")
-    page_obj = paginator.page(paginator.num_pages)
-
+    current_count=0
+    if query:
+        children = Child.objects.filter(local_church=query)
+        current_count = children.count() 
+    else:
+        children = Child.objects.all()
     
+    paginator = Paginator(children, 8) 
+    try:
+        page_obj = paginator.page(page_number)  
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)  
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)  
+
+    total = Child.objects.all().count()  
 
 
-    count=children.count()
-
-    percent=int((count/total)*100)
+    if total > 0:
+        percent = int((current_count / total) * 100)
+    else:
+        percent = 0  # Avoid divide by zero if no children exist at all
     
-    return render(request, 'register/view.html', {'percent':percent ,'page_obj': page_obj, 'churches': churches, 'count':count, 'query':query, 'total':total})
+    return render(request, 'register/view.html', {
+        'percent': percent,
+        'page_obj': page_obj,
+        'churches': churches,
+        'count': current_count,
+        'query': query,
+        'total': total
+    })
 
 
 
@@ -248,7 +238,6 @@ def mark_attendance(request, pk):
 
         if attendance.in_attendance:
             attendance.in_attendance = False
-            attendance.child.attendance_rate -= 1  
         else:
             attendance.in_attendance = True
             attendance.child.attendance_rate += 1  

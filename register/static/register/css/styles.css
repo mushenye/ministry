@@ -1,5 +1,5 @@
 body {
-  background-image: url("/static/register/images/bg.jpg");
+  background-image: url("/static/register/images/bg-image2.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -23,3 +23,13 @@ body {
     @media screen and (max-width: 767px) {
       .row.content {height: auto;} 
     }
+
+.myimage {
+  position:absolute;
+  height:80px;
+}
+@media screen and (max-width: 600px){
+  .myimage {
+    position: relative;
+  }
+}

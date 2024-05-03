@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
       <div class="col-xl-7 col-lg-8">
         <div class="section-title text-center">
-          <h1>Welcome</h1>
+          <h1>Welcome {{request.user.username.capitalize}}</h1>
           <p>Kariokor Monthly meeting children Ministry</p>
         </div>
         <hr />
@@ -16,109 +16,111 @@
 
   <hr />
 
-  <nav class="navbar navbar-inverse visible-xs">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button
-          type="button"
-          class="navbar-toggle"
-          data-toggle="collapse"
-          data-target="#myNavbar"
-        >
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Logo</a>
-      </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Dashboard</a></li>
-          <li><a href="#">Age</a></li>
-          <li><a href="#">Gender</a></li>
-          <li><a href="#">Geo</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
   <div class="container-fluid">
     <div class="row content">
       <div class="col-sm-3 sidenav hidden-xs">
         <h2>Logo</h2>
-        <ul class="nav nav-pills nav-stacked">
-          <li class="active"><a href="#section1">Dashboard</a></li>
-          <li><a href="#section2">Age</a></li>
-          <li><a href="#section3">Gender</a></li>
-          <li><a href="#section3">Geo</a></li>
+
+        <ul class="list-group nav nav-pills nav-stacked">
+          <li class="list-group-item m-2">
+            <a href="#section1">Calender Events</a>
+          </li>
+          <li class="list-group-item m-2">
+            <a href="#section2">View Children</a>
+          </li>
+          <li class="list-group-item m-2">
+            <a href="#section3"> Statistics</a>
+          </li>
+          <li class="list-group-item m-2">
+            <a href="#section3">Our Progress</a>
+          </li>
         </ul>
-        <br />
+      
       </div>
-      <br />
+    
 
       <div class="col-sm-9">
         <div class="well">
-          <h4>Dashboard</h4>
+          <h4>Children in Ministry</h4>
           <p>Some text..</p>
         </div>
         <div class="row">
-          <div class="col-sm-3">
-            <div class="well">
-              <h4>Users</h4>
-              <p>1 Million</p>
+          <div class="col-sm-9">
+            <h4>Leadership</h4>
+            <div >
+              Monthly meeting
+              <table class="table table-success table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+
+                    <th scope="col">Position</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Chaiman</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Secretary</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>Treasurer</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td>Larry</td>
+                    <td>Vice Chairman</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">5</th>
+                    <td>Larry</td>
+                    <td>Vice Secretary</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">6</th>
+                    <td>Larry</td>
+                    <td>Vice Treasurer</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="well">
-              <h4>Pages</h4>
-              <p>100 Million</p>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="well">
-              <h4>Sessions</h4>
-              <p>10 Million</p>
-            </div>
-          </div>
-          <div class="col-sm-3">
-            <div class="well">
-              <h4>Bounce</h4>
-              <p>30%</p>
+              <h4>Local Churches</h4>
+              <ul class="list-group">
+                <li class="list-group-item">Kiambiu</li>
+                <li class="list-group-item">Muthaiga</li>
+                <li class="list-group-item">South B</li>
+                <li class="list-group-item">Eastleigh</li>
+                <li class="list-group-item">Runda</li>
+                <li class="list-group-item">Umoja</li>
+                <li class="list-group-item">Kitengela</li>
+                <li class="list-group-item">Kariokor</li>
+                <li class="list-group-item">Waudo</li>
+              </ul>
             </div>
           </div>
         </div>
+
         <div class="row">
-          <div class="col-sm-4">
-            <div class="well">
-              <p>Text</p>
-              <p>Text</p>
-              <p>Text</p>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="well">
-              <p>Text</p>
-              <p>Text</p>
-              <p>Text</p>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="well">
-              <p>Text</p>
-              <p>Text</p>
-              <p>Text</p>
-            </div>
-          </div>
-        </div>
-        <div class="row">
+          <div class="col-sm-4"></div>
           <div class="col-sm-8">
-            <div class="well">
-              <p>Text</p>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="well">
-              <p>Text</p>
+            <div class="well"> 
+              <p > <b class="p-3">You can proceed to the day ?</b>
+              <a
+                href="{% url 'view_events'%}"
+                class="btn btn-sm btn-success px-4"
+                >Continue</a
+              ></p>
             </div>
           </div>
         </div>

@@ -45,7 +45,7 @@
           SELECT TO ADD IN ATTENDANCE
         </small>
         <div class="overflow-auto">
-          {% for item in attendance %} {% if item.in_attendance != True %}
+          {% for item in attendance %} {% if item.in_attendance != True and item.child.local_church == request.user.local_church %}
 
           <div class="single-schedules-inner bg-light">
             <ul class="list-group p-1">
@@ -69,7 +69,7 @@
 
         <div class="overflow-auto">
           <table class="table table-success table-striped">
-            {% for item in attendance %} {% if item.in_attendance == True %}
+            {% for item in attendance %} {% if item.in_attendance == True and item.child.local_church == request.user.local_church  %}
             <tr>
               <td>
                 <a
