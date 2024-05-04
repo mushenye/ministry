@@ -1,6 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import  redirect, render
 from django.contrib import messages
 from django.contrib.auth.views import LoginView
 from .forms import CustomAuthenticationForm
@@ -28,4 +26,9 @@ class CustomLoginView(LoginView):
     authentication_form = CustomAuthenticationForm
     template_name = 'user/login.html'
 
+    
+
+
+   
+    
 

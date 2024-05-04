@@ -264,6 +264,7 @@ def mark_attendance(request, pk):
         attendance.save()
         attendance.child.save()  
     else:
+        
         messages.warning(request, "You are not allowed to mark the attendance on this date.")
 
     return redirect('create_attendance', attendance.activity.slug)
