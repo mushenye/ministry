@@ -41,7 +41,7 @@ class Child(models.Model):
     def __str__(self):
             return '{} {}' .format(self.first_name, self.last_name)
     
-
+    
     def rate (self):
         calendar=CalenderEvent.objects.filter(is_on_date=True).count()
         percent_rate= (self.attendance_rate/calendar)*100
@@ -52,21 +52,25 @@ class Child(models.Model):
 
     
 
+# model for child image
 
 class ChildImage(models.Model):
     date_created=models.DateField(auto_now_add=True)
     child=models.OneToOneField(Child, on_delete=models.CASCADE)
     image=models.ImageField(max_length=100,upload_to='child_images', blank=True,null=True)
 
+    # save fuction ensure the image size is minimized , avoid 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.image:
             img = Image.open(self.image.path)
+            
             if img.height > 300 or img.width > 300:
                 output_size = (300, 300)
                 img.thumbnail(output_size)
                 img.save(self.image.path)
 
+    # 
     def __str__(self):
             return '{} {}' .format(self.child.first_name, self.child.last_name)
     

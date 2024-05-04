@@ -91,7 +91,7 @@ class EditRegisterForm(forms.ModelForm):
         )
 
 
-
+# create image form , this is passed to the views
 
 class ImageForm(forms.ModelForm):
     
@@ -102,13 +102,18 @@ class ImageForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ImageForm, self).__init__(*args,**kwargs)
+
+        # uses  crispy-form  
+
         self.helper=FormHelper()
         self.helper.form_method ='post'
         self.helper.layout=Layout(
             'image',
             FormActions(
                 Submit('save', 'Save', css_class='mx-4 px-4 btn btn-sm btn-success'),
-                Submit('cancel', 'Cancel' ,css_class='mx-4 px-4 btn btn-sm btn-warning')
+
+                # cancel data 
+                Submit('cancel', 'Cancel' ,css_class='mx-4 px-4 btn btn-sm btn-warning'),
             )
         )
 

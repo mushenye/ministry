@@ -62,24 +62,38 @@ def edit_child_details(request,slug):
 
 
 
+
+
+# Fuction add image 
 def add_image(request, pk):
+    # try block check if unknow pk value is passed to the function 
     try:
         image = ChildImage.objects.get(id=pk)
+
     except ChildImage.DoesNotExist:
         messages.error(request, "Specified image not found.")
-        return redirect('')  # Assuming 'index' is a sensible fallback view
+        return redirect('home')  
 
+    # check if its a post request.
     if request.method == "POST":
+        
         form = ImageForm(request.POST, request.FILES, instance=image)
+
+        # validate the form 
         if form.is_valid():
-            try:
-                
+            #try block  catches errors that may arise when saving data to the data base 
+            try:    
                 form.save(commit=False)
+
+                # if cancel, data will not be saved 
+
                 if 'cancel' in request.POST:
+
                     messages.warning(request, "No image added Try again !! ")
                     return redirect('view_child_details', image.child.slug)
                 
                 else:
+                    # if sunmit doesn't contain cancel , data is saved and redirected 
                     form.save()
                     messages.success(request, "Image updated successfully!")
                     return redirect('view_child_details', image.child.slug)
@@ -87,7 +101,12 @@ def add_image(request, pk):
                 messages.warning(request, f"Failed to update image. Error: {str(e)}")
                 return redirect('view_child_details', image.child.slug)
     else:
+        #creates instance of image for a particular child 
+        # the instance was created during child registration
+        # ImageForm  created in form.py
         form = ImageForm(instance=image)
+
+        # render to display 
 
     return render(request, 'register/add_image.html', {'form': form, 'image':image})
 
