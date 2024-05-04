@@ -1,4 +1,4 @@
-# ministry
+
 
 
 # Child Registration and Event Management System
@@ -14,7 +14,7 @@ This is a Django-based web application for registering children, managing events
 
 - **Attendance Tracking**: Record attendance of children for each event and track their attendance rates.
 - **Image Management**: Upload and manage images associated with each child for easy identification.
-- **User Authentication**: Secure login system for administrators to manage the system.
+- **User Authentication**: Secure login system for administrators to manage the system. The adimistrator has to log in with their correct credential to be able to manage their respective stations 
 
 
 ## Installation
