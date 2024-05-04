@@ -22,23 +22,23 @@ This is a Django-based web application for registering children, managing events
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:mushenye/ministry.git
 
     Navigate to the project directory:
 
-CMD
+bash
 
 cd child-registration-system
 
     Install dependencies:
 
-CMD
+bash
 
 pip install -r requirements.txt
 
     Apply database migrations:
 
-CMD
+bash
 
 python manage.py makemigrations
 
@@ -46,7 +46,7 @@ python manage.py migrate
 
     Run the development server:
 
-CMD
+bash
 
 python manage.py runserver
 
