@@ -53,26 +53,10 @@ class RegisterForm(forms.ModelForm):
 
 # 
 
-class EditRegisterForm(forms.ModelForm):
+class EditRegisterForm(RegisterForm):
     
-    class Meta:
-        model = Child
-        fields = '__all__' 
-        exclude = ('attendance_rate',)
-        widgets = {
-            'gender': forms.RadioSelect(attrs={"class": "inline li"}),
-            'date_of_birth': forms.DateInput(attrs={
-                'class': 'form-control',
-                 'readonly': 'readonly',
-                 'id': 'datepicker',
-            }), 
-
-        }
-
     def __init__(self, *args, **kwargs):
         super(EditRegisterForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
         self.helper.layout = Layout(
             'first_name',
             'middle_name',

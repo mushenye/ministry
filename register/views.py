@@ -47,7 +47,7 @@ def edit_child_details(request,slug):
             form.save(commit=False)
             if 'cancel' in request.POST:
                 messages.warning(request, "No Data added Try again !! ")
-                return redirect('view_child_details', child.slug)
+                return redirect('view_child_details', slug)
 
             else:
                 form.save()
