@@ -8,10 +8,16 @@
       <p>
         Kariokor Monthly meeting children Ministry
         <a
-          href="{% url 'create-event' calendar_event.slug %}"
+          href="{% url 'event' calendar_event.slug %}"
           class="mx-4 text-end px-4 btn btn-sm btn-warning"
         >
           Add day event
+        </a>
+           <a
+          href="{% url 'view_event' calendar_event.slug %}"
+          class="mx-4 text-end px-4 btn btn-sm btn-success"
+        >
+          View event
         </a>
       </p>
     </div>

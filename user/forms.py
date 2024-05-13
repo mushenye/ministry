@@ -47,12 +47,15 @@ class RegistrationForm(UserCreationForm):
                 Column('local_church'),
                 Column('phone_number'),
             ),
-            
-            'password1',
-            'password2',
+            Row(
+                Column ( 'password1'),
+                Column('password2'),
+            ),
+            HTML(""" <hr>"""),
+           
              FormActions(
-                Submit('save', 'Save', css_class='text-center  px-4 btn btn-sm btn-success'),
-                Submit('cancel', 'Cancel' ,css_class='  px-4 btn btn-sm btn-warning text-end'),
+                Submit('save', 'Save', css_class='mx-4  px-4 btn btn-sm btn-success'),
+                Submit('cancel', 'Cancel' ,css_class=' mx-4 px-4 btn btn-sm btn-warning '),
             )
 
         )

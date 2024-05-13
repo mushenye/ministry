@@ -9,8 +9,11 @@
         </div>
         <hr />
         <div class="row">
+          
           <div class="col-sm-4 my-2 ">
-            <a href="{% url 'add' %}" class="btn btn-sm btn-warning my-2" >Add child </a>
+          
+            <a href="{% url 'add' %}?next={{request.get_full_path}}" class=" px-4 btn btn-sm btn-warning my-2" >Add child </a>
+           
             <form method="get">
               <div class="dropdown">
                 <button
@@ -21,8 +24,9 @@
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  choose local church
+                  Choose your Local Church
                 </button>
+                
                 <div class="dropdown-menu my-2" aria-labelledby="filterMenu">
                   {% csrf_token %} {% for code, label in churches %}
                   <button
@@ -39,6 +43,10 @@
             </form>
           </div>
           <div class="col-sm-8">
+            {% if query %}
+            <b>{{query}}</b>
+            {%endif %}
+
             <table class="table table-danger table-striped">
               <tbody>
               <tr>
@@ -50,12 +58,16 @@
               {% if query %}
 
               <tr>
-                <th> children in {{query}}</th>
+                <th> Children in {{query}}</th>
                 <td>{{count}}</td>
               </tr>
               <tr>
                 <th>Percentage </th>
                 <td>{{percent}} %</td>
+              </tr>
+              <tr>
+                   <a href="{% url 'view_child' %}" class=" mx-4 px-4 btn btn-sm btn-light my-2" >view ALL </a>
+
               </tr>
 
               {% endif %}

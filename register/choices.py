@@ -20,8 +20,21 @@ TALENT=(
     ('Praise & Worship','Praise & Worship'),
     ('Giving','Giving'),
     ('Singing','Singing'),
+    
 )
-
+EVENT=[
+    ('1st Reading', '1st Reading'),
+    ('Praise and worship', 'Praise and worship'),
+    ('Testimonies' ,'Testimonies') ,
+    ('Visitors',  'Visitors'), 
+    ('Sermon' , 'Sermon') ,
+    ('Opening prayer', 'Opening prayer'), 
+    ('Closing prayer','Closing prayer'),
+    ('Hymns','Hymns'),
+    ('2nd Reading', '2nd Reading'), 
+    ('Intercessory', 'Intercessory'), 
+    
+]
 
 
 

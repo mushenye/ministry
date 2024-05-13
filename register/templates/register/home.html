@@ -17,37 +17,60 @@
   <hr />
 
   <div class="container-fluid">
-    <div class="row content">
-      <div class="col-sm-3 sidenav hidden-xs">
-        <h2>Logo</h2>
+    <div class="row ">
+      <div class="col-sm-3  hidden-xs">
+        <h2></h2>
 
-        <ul class="list-group nav nav-pills nav-stacked">
-          <li class="list-group-item m-2">
-            <a href="#section1">Calender Events</a>
-          </li>
-          <li class="list-group-item m-2">
-            <a href="#section2">View Children</a>
-          </li>
-          <li class="list-group-item m-2">
-            <a href="#section3"> Statistics</a>
-          </li>
-          <li class="list-group-item m-2">
-            <a href="#section3">Our Progress</a>
-          </li>
-        </ul>
-      
+      <a  class="text-decoration-none" href="{% url 'view_events'%}">
+        <div class="col-sm-12 m-2" >
+          <div class="card shadow-lg bg-primary" style="border-radius:20px">
+            <div class="card-body">
+              <h4 class=" text-center card-subtitle mb-1">Events</h4>              
+            </div>
+          </div>
+        </div></a>
+
+         <a  class="text-decoration-none" href="{% url 'view_child'%}">
+        <div class="col-sm-12 m-2" >
+          <div class="card shadow-lg bg-body" style="border-radius:20px">
+            <div class="card-body">
+              <h4 class=" text-center card-subtitle mb-1">Children</h4>              
+            </div>
+          </div>
+        </div></a>
+
+        <a  class="text-decoration-none" href="#">
+        <div class="col-sm-12 m-2" >
+          <div class="card shadow-lg bg-body" style="border-radius:20px">
+            <div class="card-body">
+              <h4 class=" text-center card-subtitle mb-1">Statistic</h4>              
+            </div>
+          </div>
+        </div></a>
+
+ <a  class="text-decoration-none" href="#section1">
+        <div class="col-sm-12 m-2" >
+          <div class="card shadow-lg bg-body" style="border-radius:20px">
+            <div class="card-body">
+              <h4 class=" text-center card-subtitle mb-2">Progress Report</h4>              
+            </div>
+          </div>
+        </div></a>
+         
+        
       </div>
-    
 
       <div class="col-sm-9">
         <div class="well">
           <h4>Children in Ministry</h4>
-          <p>Some text..</p>
-        </div>
+          <p >As a Quaker Church, we believe in God as our loving Father of all us. Through his divine, we bring our children to the faith in Jesus Christ and find salvation through the Gospel and the work of the Holy Spirit.</p>
+        <p> The Quaker tradition emphasizes the direct experience of God's presence and guidance in our lives, as well as the importance of community and social justice. Bringing children into the faith and nurturing their spiritual growth is a profound aspect of many religious traditions, including Quakerism. How do you personally find that your faith impacts your life and relationships? </p>
+        <p> Certainly! Faith can impact every aspect of life, from how we treat others to the decisions we make in our careers and personal lives. For example, the Quaker belief in the inherent worth and dignity of every person can influence how we interact with others, promoting kindness, empathy, and respect. Additionally, the Quaker commitment to peace and social justice can inspire us to advocate for equality, work towards reconciliation, and strive for a more just and compassionate society. How do you see your faith shaping your actions and relationships in your daily life?</p>
+      </div>
         <div class="row">
           <div class="col-sm-9">
             <h4>Leadership</h4>
-            <div >
+            <div>
               Monthly meeting
               <table class="table table-success table-striped">
                 <thead class="thead-dark">
@@ -114,13 +137,15 @@
         <div class="row">
           <div class="col-sm-4"></div>
           <div class="col-sm-8">
-            <div class="well"> 
-              <p > <b class="p-3">You can proceed to the day ?</b>
-              <a
-                href="{% url 'view_events'%}"
-                class="btn btn-sm btn-success px-4"
-                >Continue</a
-              ></p>
+            <div class="well">
+              <p>
+                <b class="p-3">You can proceed to the day ?</b>
+                <a
+                  href="{% url 'view_events'%}"
+                  class="btn btn-sm btn-success px-4"
+                  >Continue</a
+                >
+              </p>
             </div>
           </div>
         </div>

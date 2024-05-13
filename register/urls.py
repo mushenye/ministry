@@ -10,7 +10,7 @@ urlpatterns = [
     path('view/children/',views.child_view, name='view_child' ),
     # path('view/children/',ChildrenListView.as_view(), name='view_child' ),
 
-    path('view/image/detail/<int:pk>/',views.add_image, name='add_image' ),
+    path('add/image/detail/<int:pk>/',views.add_image, name='add_image' ),
     path('view/children/details/<str:slug>',views.view_child_details, name='view_child_details' ),
     path('add/parent/details/<int:pk>',views.add_parent, name='parent' ),
     path('edit/child/details/<str:slug>',views.edit_child_details, name='edit_child' ),
@@ -19,6 +19,12 @@ urlpatterns = [
     path('create/attendance/<str:slug>', views.create_attendance, name='create_attendance' ),
     path('mark-attendance/<int:pk>',views.mark_attendance, name='mark' ),
     path('create-event/<str:slug>',views.create_event, name='create-event' ),
+    path('create/event/<str:slug>',views.event_form, name='event' ),
+    path('view/event/<str:slug>',views.view_event, name='view_event' ),
+    path('add/day_event/<int:pk>',views.add_event, name='add_event' ),
+
+
+
 
 
 

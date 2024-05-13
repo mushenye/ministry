@@ -1,0 +1,115 @@
+{% extends "register/base.html"%} {% load crispy_forms_tags%} {% load static %}
+{% block main %}
+
+<div class="row justify-content-center">
+  <div class="col-xl-7 col-lg-12">
+    <div class="section-title text-center">
+      <h2>Events Register</h2>
+      <p>
+        Kariokor Monthly meeting children Ministry {% comment %}
+        <a
+          href="{% url 'event' calendar_event.slug %}"
+          class="mx-4 text-end px-4 btn btn-sm btn-warning"
+        >
+          Add day event
+        </a>
+        <a
+          href="{% url 'create-event' calendar_event.slug %}"
+          class="mx-4 text-end px-4 btn btn-sm btn-success"
+        >
+          View event
+        </a>
+        {% endcomment %}
+      </p>
+    </div>
+
+    <hr />
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-sm-3 mx-5">
+    <b>Events for :</b> {{ calendar_event.title.capitalize }}
+  </div>
+  <div class="col-sm-3 mx-5"><b>Date:</b> {{ calendar_event.on_date }}</div>
+
+  <div class="col-sm-3 mx-5">
+    <b> Local Church</b> : {{request.user.local_church}}
+  </div>
+</div>
+
+<div class="tab-content" id="ex1-content">
+  <div class="tab-pane fade active show" id="ex1-tabs-1" role="tabpanel">
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-md-6 p-2 m-2">
+        <p class="text-center">
+          <b> Event Not on the list ?</b>
+          <a
+            class="mx-6 btn btn-sm btn-primary px-4"
+            href="{% url 'event' calendar_event.slug %}?next={{request.get_full_path}}"
+          >
+            Create Event</a
+          >
+        </p>
+
+        <small class="text-center text-white bg-success p-2">
+          EVENT LIST
+        </small>
+        <hr />
+        <div class="overflow-auto">
+
+            <div class="row">
+
+          {% for item in event %}
+
+         <div class="col-sm-6">
+          <div class="card my-1">
+            <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">{{item.event}}</h6>
+    <p class="card-text">{{item.associate}}</p>
+    <a href="{% url 'add_event' item.id %}" class="card-link"> Add event</a>
+    <a href="#" class="card-link">delete</a>
+            </div>
+          </div>
+
+        </div>
+          {% endfor %}
+    </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 p-2 m-2 card">
+        
+        <small class="btn btn-info"><b> Order of Events </b></small>
+
+        <div class="overflow-auto">
+          <table class="table table-success table-striped">
+            
+            {% for event in events_created %}
+            {{event.date_created}}
+            <tr>
+              <td>
+                <a class="text-decoration-none text-success px-2" href="#">
+                  <small>
+                  </small>
+                </a>
+                {{ event.events.}}
+              </td>
+              <td></td>
+
+              <td>
+                <a class="text-decoration-none text-end" href="#">
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+           
+          </table>
+        </div>
+      </div>
+     
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main %}

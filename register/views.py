@@ -1,15 +1,21 @@
 import datetime
 from typing import Any
+from django import forms
 from django.db.models.query import QuerySet
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic.list import ListView
 from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
-from register.choices import CHURCH
-from register.forms import  CalenderEventForm, EditRegisterForm, EventActivityForm, ImageForm, ParentForm, RegisterForm
-from register.models import Attendance, CalenderEvent, Child, ChildImage, Parent
+from register.choices import CHURCH, EVENT
+from register.forms import  CalenderEventForm, EditRegisterForm, EventActivityForm, EventForm, ImageForm, ParentForm, RegisterForm
+from register.models import Attendance, Child, ChildImage, Event, EventActivity, OrderOfEvent, Parent, ChildrenMinistryEvent
 
 # Create your views here.
+today = datetime.date.today()
+
+
+
 
 def index(request):
     return render(request, 'register/home.html')
@@ -89,14 +95,17 @@ def add_image(request, pk):
 
                 if 'cancel' in request.POST:
 
-                    messages.warning(request, "No image added Try again !! ")
+                    messages.warning(request, "You have not made any changes !! ")
+                    return redirect('view_child_details', image.child.slug)
+                elif 'proceed' in request.POST:
+                    form.save()
                     return redirect('view_child_details', image.child.slug)
                 
                 else:
                     # if sunmit doesn't contain cancel , data is saved and redirected 
                     form.save()
                     messages.success(request, "Image updated successfully!")
-                    return redirect('view_child_details', image.child.slug)
+                    return redirect('add_image', image.id)
             except Exception as e:  
                 messages.warning(request, f"Failed to update image. Error: {str(e)}")
                 return redirect('view_child_details', image.child.slug)
@@ -193,7 +202,8 @@ def create_sunday_activity(request):
     if request.method== "POST":
         form=CalenderEventForm(request.POST)
         if form.is_valid():
-            form.save()
+            calendar=form.save()
+            
             return redirect('view_events')
     else:
         form= CalenderEventForm()
@@ -201,25 +211,26 @@ def create_sunday_activity(request):
 
 
 def view_events(request):
-    calender_events=CalenderEvent.objects.all().order_by('-on_date')
+    calender_events=ChildrenMinistryEvent.objects.all().order_by('-on_date')
     paginator = Paginator(calender_events, 4)  
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request,'register/calender_events.html',
                   {'calender_events':calender_events, 'page_obj':page_obj})
 
-
+@login_required
 def create_attendance(request,slug):
     user=request.user
     if user.is_authenticated:
-        calendar_event=CalenderEvent.objects.get(slug=slug)
+        calendar_event=ChildrenMinistryEvent.objects.get(slug=slug)
         children=Child.objects.filter(local_church=user.local_church)
         for child in children:
             Attendance.objects.get_or_create(activity=calendar_event, child=child)
         
         attendance =Attendance.objects.filter(activity=calendar_event)
+        if user.local_church:
+            OrderOfEvent.objects.get_or_create(local_church=user.local_church, calendar=calendar_event)
 
-       
         total_child=attendance.count() 
         present=attendance.filter(in_attendance=True).count()
         absent=total_child-present
@@ -248,7 +259,6 @@ def mark_attendance(request, pk):
    
     attendance = Attendance.objects.get(id=pk)
 
-    today = datetime.date.today()
     activity_date = attendance.activity.on_date
 
     if today == activity_date:
@@ -257,6 +267,8 @@ def mark_attendance(request, pk):
 
         if attendance.in_attendance:
             attendance.in_attendance = False
+            attendance.child.attendance_rate -= 1  
+
         else:
             attendance.in_attendance = True
             attendance.child.attendance_rate += 1  
@@ -275,7 +287,8 @@ def mark_attendance(request, pk):
 
 def create_event(request, slug):
     
-    calendar =CalenderEvent.objects.get(slug=slug)
+    calendar =ChildrenMinistryEvent.objects.get(slug=slug)
+   
     if request.method =="POST":
         form =EventActivityForm(request.POST)
         if form.is_valid():
@@ -294,3 +307,68 @@ def create_event(request, slug):
 
     return render(request,'register/event.html', {'form':form,'calendar':calendar})
 
+
+def event_form(request, slug):
+
+    user = request.user
+    church = user.local_church
+    calendar = get_object_or_404(ChildrenMinistryEvent, slug=slug)
+    events = Event.objects.filter(calendar=calendar, church=church)   
+    initial_data = {'calendar': calendar, 'church': church}
+
+    today = datetime.date.today()
+    if today <= calendar.on_date:
+        if request.method == "POST":
+            form = EventForm(request.POST, initial=initial_data)
+            if form.is_valid():
+                event_registration = form.save(commit=False)
+                event_registration.church = church
+                event_registration.calendar = calendar
+                event=form.cleaned_data.get('event')
+                for item in events:
+                    if item.event==event:
+                            raise forms.ValidationError({'__all__': 'Duplicate event'})                        
+                if 'add_more' in request.POST:
+                    event_registration.save()
+                    return redirect('event', calendar.slug)
+                elif 'exit' in request.POST:
+                    return redirect('view_event', calendar.slug)
+                else:
+                    event_registration.save()
+                    return redirect('view_event', calendar.slug)
+        else:
+            form = EventForm(initial=initial_data)
+          
+
+        return render(request, 'register/event_form.html', {'form': form, 'calendar': calendar})
+    else:
+        messages.warning(request, 'You can change or add events for past Event')
+        return redirect('create_attendance', calendar.slug)
+
+   
+            
+def view_event(request,slug):
+    user=request.user
+    calendar_event=ChildrenMinistryEvent.objects.get(slug=slug)
+    order_of_event=OrderOfEvent.objects.get(calendar=calendar_event, local_church=user.local_church)
+
+    event=Event.objects.filter(church=user.local_church, calendar=calendar_event)
+    events_created= EventActivity.objects.filter(order_of_events=order_of_event)
+
+    return render(request, 'register/events.html', {'event':event, 'calendar_event':calendar_event, 'events_created':events_created})
+
+
+
+
+def add_event(request, pk):
+    event=Event.objects.get(id=pk)
+    order_of_event=OrderOfEvent.objects.get(local_church=event.church, calendar=event.calendar)
+    event_activity,created=EventActivity.objects.get_or_create(order_of_events=order_of_event, event=event)
+    if event_activity:
+        messages.warning(request,f'{event.event} has already been sheduled, check on the order of events')
+    else:
+        messages.success(request,f'You have added {event.event} to the order of events')
+    return redirect('view_event', event.calendar.slug)
+
+
+    

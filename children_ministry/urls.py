@@ -28,7 +28,6 @@ urlpatterns = [
     path('logout/',auth_views.LogoutView.as_view(template_name='user/logout.html'), name="logout"),
 
 
-
     path('passwordchange/',auth_views.PasswordChangeView.as_view(template_name='user/changepassword.html',form_class=MyPasswordChangeForm,success_url='/passwordchangedone'),name='passwordchange'),
     path('passwordchangedone/',auth_views.PasswordChangeDoneView.as_view(template_name='user/changepassworddone.html' ),name='passwordchangedone'),
     path('logout/', auth_views.LogoutView.as_view(next_page ='login'), name='logout'),

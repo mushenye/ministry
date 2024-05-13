@@ -8,30 +8,37 @@
         <h2>Calender of Event Schedules</h2>
         <p>Kariokor Monthly meeting children Ministry</p>
       </div>
-      <hr />
+      <hr />  
+          <a href="{% url 'calendar'%}" class="px-4 btn btn-sm btn-success"> Create </a>
+
     </div>
   </div>
-  <a href="{% url 'calendar'%}" class="px-4 btn btn-sm btn-success"> Create </a>
+
 
  
       <div class="row justify-content-center ">
         {% for item in page_obj%}
 
-        <div class="col-sm-5  p-2 m-2 card">
+        <div class="col-sm-3  p-2 m-2  card" style="background-color:rgba(255,255,255,0.5); border-radius:20px;">
+          <div class="card-body ">
           <a
             href="{% url 'create_attendance' item.slug %}"
             class="text-decoration-none btn-light"
           >
             <div class="single-schedules-inner">
-              <div class="date text-end">
+              <div class="date text-end tex-dark">
                 <i class="fa fa-clock-o"></i>
                 {{ item.on_date}}
               </div>
-              <h4>{{item.title.capitalize}}.</h4>
-              <p>{{item.details.capitalize}}</p>
+              <h4 class="text-dark">{{item.title.capitalize}}.</h4>
+              <p class="text-dark text-muted ">{{item.details.capitalize}}</p>
             </div>
           </a>
         </div>
+          <a href="">Edit</a>
+        </div>
+
+
 
         {% endfor %}
   

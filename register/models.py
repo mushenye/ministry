@@ -1,6 +1,8 @@
 import datetime
 from django.db import models
-from . choices import CHURCH, GENDER, TALENT, COUNTY
+
+from user.models import CustomUser
+from . choices import CHURCH, EVENT, GENDER, TALENT, COUNTY
 from PIL import Image
 from django.template.defaultfilters import slugify
 import uuid
@@ -43,9 +45,9 @@ class Child(models.Model):
     
     
     def rate (self):
-        calendar=CalenderEvent.objects.filter(is_on_date=True).count()
+        calendar=ChildrenMinistryEvent.objects.filter(is_on_date=True).count()
         percent_rate= (self.attendance_rate/calendar)*100
-        return percent_rate
+        return round(percent_rate)
 
     
 
@@ -78,20 +80,21 @@ class ChildImage(models.Model):
 class Parent(models.Model):
     child=models.ForeignKey(Child, on_delete=models.CASCADE)
     father_name=models.CharField(max_length=100,blank=True, null=True)
+    father_phone_number=models.IntegerField(blank=True, null=True)
     mother_name=models.CharField(max_length=100,blank=True, null=True)
-    phone_number=models.IntegerField(blank=True, null=True)
+    mother_phone_number=models.IntegerField(blank=True, null=True)
     home_county=models.CharField( choices=COUNTY,max_length=20, blank=True, null=True)
 
     def __str__(self):
         return '{} {}' .format(self.child.first_name, self.child.last_name)
 
 
-class CalenderEvent (models.Model):
+class ChildrenMinistryEvent (models.Model):
     date_created=models.DateField(auto_now_add=True)
     slug=models.SlugField(blank=True, null=True, unique=True)
     on_date=models.DateField()
     title=models.CharField(max_length=100)
-    details=models.TextField(max_length=500)
+    details=models.TextField(max_length=50)
     children_attendance = models.ManyToManyField(Child, through='Attendance', related_name='lessons_attended')
     is_on_date=models.BooleanField(default=False)
    
@@ -108,8 +111,8 @@ class CalenderEvent (models.Model):
 
 
 class Attendance(models.Model):
-    date_created=models.DateField(auto_now_add=True)
-    activity=models.ForeignKey(CalenderEvent, on_delete=models.CASCADE)
+    date_created=models.DateField(auto_now_add=True, )
+    activity=models.ForeignKey(ChildrenMinistryEvent, on_delete=models.CASCADE)
     child=models.ForeignKey(Child, on_delete=models.CASCADE)
     in_attendance=models.BooleanField(default=False)
 
@@ -118,14 +121,39 @@ class Attendance(models.Model):
         return '{} {}' .format(self.child.first_name, self.child.last_name)
     
 
-class EventActivity(models.Model):
+class Event(models.Model):
+    calendar=models.ForeignKey(ChildrenMinistryEvent, on_delete=models.CASCADE)
+    church=models.CharField(max_length=20)
+    date_created=models.DateField(auto_now=True)
+    event=models.CharField(choices=EVENT, max_length=100)
+    associate=models.CharField(max_length=100, default=None)
+    duration=models.IntegerField(default=0)
+    
+    def __str__(self):
+        return f"{self.event}- {self.associate}"
+    
+
+
+
+
+class OrderOfEvent(models.Model):
+    local_church=models.CharField(max_length=20)
+    calendar=models.ForeignKey(ChildrenMinistryEvent, on_delete=models.CASCADE)
     date_created=models.DateField(auto_now_add=True)
-    activity=models.ForeignKey(CalenderEvent, on_delete=models.CASCADE)
-    church=models.CharField(choices=CHURCH, max_length=20, default='KMM')
-    procession_of_events=models.TextField(max_length=200, )
-    days_scripture =models.CharField(max_length=50, blank=True, null=True)
-     
+    events=models.ManyToManyField(Event, through ="EventActivity", related_name="events", )
+  
+
+    def __str__(self):
+        return f"{self.calendar.title}- {self.local_church}"     
+
+    
+
+class EventActivity(models.Model):
+    order_of_events=models.ForeignKey(OrderOfEvent, on_delete=models.CASCADE)
+    event=models.ForeignKey(Event, on_delete=models.CASCADE)
+    
+
+
+
     def __str__ (self):
-         return self.activity.title
-     
-     
+         return self.event.event 
