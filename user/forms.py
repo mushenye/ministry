@@ -39,6 +39,8 @@ class RegistrationForm(UserCreationForm):
         self.helper=FormHelper()
         self.helper.form_method = 'post'
         self.helper.layout=Layout(
+                             HTML("""<b class="text-dark"> Personal Details</b> <hr>"""),
+
             Row(
                 Column ('username'),
                 Column ('email'),
@@ -47,8 +49,13 @@ class RegistrationForm(UserCreationForm):
                 Column('local_church'),
                 Column('phone_number'),
             ),
+                  HTML("""<b class="text-dark"> Enter your password </b> <hr>"""),
+
             Row(
+
                 Column ( 'password1'),
+               
+
                 Column('password2'),
             ),
             HTML(""" <hr>"""),

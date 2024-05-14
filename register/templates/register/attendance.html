@@ -33,10 +33,10 @@
   <div class="col-sm-3 mx-5"><b> Local Church</b> : {{request.user.local_church}}</div>
 </div>
 
-<div class="tab-content" id="ex1-content">
-  <div class="tab-pane fade active show" id="ex1-tabs-1" role="tabpanel">
+<div class="card"  style="background-color:rgba(255,255,255,0.5); border-radius:20px">
+  <div class="card-body">
     <div class="row justify-content-center">
-      <div class="col-lg-4 col-md-6 p-2 m-2 card">
+      <div class="col-lg-4 col-md-6 p-2 m-2 card"  style="background-color:rgba(255,255,255,0.5); border-radius:20px">
         <p class="text-center">
           <b> Child Not on the list ?</b>
           <a
@@ -50,11 +50,11 @@
         <small class="text-center text-white bg-success p-2">
           SELECT TO ADD IN ATTENDANCE
         </small>
-        <div class="overflow-auto">
-          {% for item in attendance %} {% if item.in_attendance != True and item.child.local_church == request.user.local_church %}
+        <div class="overflow-auto "  style="background-color:rgba(255,255,255,0.5); border-radius:20px">
+         
 
-          <div class="single-schedules-inner bg-light">
             <ul class="list-group p-1">
+              {% for item in attendance %} {% if item.in_attendance != True and item.child.local_church == request.user.local_church %}
               <a class="text-decoration-none" href="{% url 'mark' item.id %}">
                 <li class="list-group-item px-3">
                   <small
@@ -64,13 +64,14 @@
                   ></small>
                 </li>
               </a>
+             {% endif %} {% endfor %} 
             </ul>
-          </div>
 
-          {% endif %} {% endfor %}
+          
+        
         </div>
       </div>
-      <div class="col-lg-4 col-md-6 p-2 m-2 card">
+      <div class="col-lg-4 col-md-6 p-2 m-2 card"  style="background-color:rgba(255,255,255,0.5); border-radius:20px">
         <small class="btn btn-info"><b>Present List</b></small>
 
         <div class="overflow-auto">
@@ -109,7 +110,7 @@
           </table>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 p-2 m-2 card">
+      <div class="col-lg-3 col-md-6 p-2 m-2 card"  style="background-color:rgba(255,255,255,0.5); border-radius:20px">
         <small class="btn btn-warning"><b>Statistic </b></small>
         <p class="btn btn-success m-2">Pie Chart : Attendance Ratio</p>
 
