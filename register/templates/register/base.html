@@ -74,17 +74,18 @@
                   href="{% url 'add'%}"
                   >AddChild</a
                 >
-              </li>
+              </li>{% endcomment %}
               <li class="nav-item">
                 <a class="nav-link btn btn-sm btn-warning" href="{% url 'view_child'%}"
-                  >Children List</a
+                  >Child</a
                 >
               </li>
+              
               <li class="nav-item">
                 <a class="nav-link btn btn-sm btn-warning" href="{% url 'view_events'%}"
-                  >Calendar Event</a
+                  >Event</a
                 >
-              </li> {% endcomment %}
+              </li> 
             </ul>
             {% if messages %} {% for message in messages %}
             <span

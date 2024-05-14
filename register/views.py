@@ -46,6 +46,8 @@ def add_child(request):
 
 def edit_child_details(request,slug):
     child=Child.objects.get(slug=slug)
+    image=ChildImage.objects.get(child=child)
+    parent=Parent.objects.get(child=child)
     if request.method =="POST":
         form =EditRegisterForm(request.POST, instance=child)
         if form.is_valid():
@@ -63,7 +65,7 @@ def edit_child_details(request,slug):
     else:
         form=EditRegisterForm(instance=child)
 
-    return render(request, 'register/add_child.html', {'form':form})
+    return render(request, 'register/edit_child.html', {'form':form,'image':image,'parent':parent})
     
 
 
@@ -177,6 +179,7 @@ def view_child_details(request, slug):
 
 def add_parent(request,pk):
     parent=Parent.objects.get(id=pk)
+    image=ChildImage.objects.get(child=parent.child)
     if request.method=="POST":
         form=ParentForm(request.POST, instance=parent)
         if form.is_valid():
@@ -192,7 +195,7 @@ def add_parent(request,pk):
     else:
         form=ParentForm(instance=parent)
 
-    return render(request, 'register/parent_add.html', {'form':form, 'parent':parent})
+    return render(request, 'register/parent_add.html', {'form':form, 'parent':parent, 'image':image})
 
 
 
@@ -325,17 +328,21 @@ def event_form(request, slug):
                 event_registration.church = church
                 event_registration.calendar = calendar
                 event=form.cleaned_data.get('event')
-                for item in events:
-                    if item.event==event:
-                            raise forms.ValidationError({'__all__': 'Duplicate event'})                        
-                if 'add_more' in request.POST:
-                    event_registration.save()
-                    return redirect('event', calendar.slug)
-                elif 'exit' in request.POST:
-                    return redirect('view_event', calendar.slug)
-                else:
-                    event_registration.save()
-                    return redirect('view_event', calendar.slug)
+                try:
+                    for item in events:
+                        if item.event==event:
+                                raise forms.ValidationError({'__all__': 'Duplicate event'})                        
+                    if 'add_more' in request.POST:
+                        event_registration.save()
+                        return redirect('event', calendar.slug)
+                    elif 'exit' in request.POST:
+                        return redirect('view_event', calendar.slug)
+                    else:
+                        event_registration.save()
+                        return redirect('view_event', calendar.slug)
+                except:
+                    messages.warning(request, f'{event} already exits, choose another event')
+                    
         else:
             form = EventForm(initial=initial_data)
           

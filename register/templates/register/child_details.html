@@ -27,30 +27,26 @@
       />
 
       <p class="text-end">
-        <a
-          class="text-success m-2 text-decoration-none btn-sm btn-light"
-          href="{% url 'add_image' child_image.id %}"
-          ><b>Change Image</b></a
-        >
-      </p>
+      
       {% else %}
       <img
         style="height: 20rem; width: 20rem; margin: auto; border-radius: 150px"
         src="{% static 'register/images/logo2.jpg' %}"
         alt="PHOTO"
       />
-      <p class="text-end">
-        <a
-          href="{% url 'add_image' child_details.id %}"
-          class="text-danger m-2 text-decoration-none btn-sm btn-light"
-          ><b>Add Image</b></a
-        >
-      </p>
+     
       {% endif %}
     </div>
   </div>
   <div class="col-sm-5">
-    <div class="card p-1 m-1">
+     <p class="text-end">
+          <a
+            class="text-success btn btn-sm btn-light"
+            href="{% url 'edit_child' child_details.child.slug %}?next={{request.get_full_path}}"
+            ><b>Edit details</b></a
+          >
+        </p>
+    <div class=" p-1 m-1">
       <table class="table table-success table-striped">
         <tr>
           <th>Gender:</th>
@@ -73,15 +69,7 @@
           <td>{{child_details.child.talent}}</td>
         </tr>
       </table>
-      <div class="bg-light p-2 text-end">
-        <p>
-          <a
-            class="text-success btn btn-sm btn-light"
-            href="{% url 'edit_child' child_details.child.slug %}"
-            ><b>Edit details</b></a
-          >
-        </p>
-      </div>
+     <hr>
 
       <div class="card p-1 m-1">
         <h4>Parent Details</h4>
@@ -122,13 +110,7 @@
           </tr>
         </table>
 
-        <p class="text-end">
-          <a
-            class="text-success btn btn-sm btn-light"
-            href="{% url 'parent' parent.id %}"
-            ><b>Edit Parent detail</b></a
-          >
-        </p>
+       
       </div>
     </div>
   </div>

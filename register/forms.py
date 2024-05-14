@@ -33,17 +33,20 @@ class RegisterForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
+                 HTML("""<b class="text-dark"> Child's full names</b> <hr>"""),
+
             Row(
                 Column( 'first_name'),
                 Column('last_name'),
                 Column('middle_name'),
             ),
-            
+            HTML("""<b class="text-dark"> Child's Date of birth and Local Church </b> <hr>"""),
             Row(
                 Column('date_of_birth'),
                     #    HTML("""<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>""")),
                 Column('local_church')
             ),
+            HTML("""<b class="text-dark"> Child's Gender and Talent </b> <hr>"""),
             Row(
                 Column(
                      InlineRadios('gender',css_class='form-check'),
@@ -67,6 +70,7 @@ class EditRegisterForm(RegisterForm):
     def __init__(self, *args, **kwargs):
         super(EditRegisterForm, self).__init__(*args, **kwargs)
         self.helper.layout = Layout(
+            
             Row(
                 Column( 'first_name'),  
                 Column('last_name'),
@@ -254,6 +258,7 @@ class EventForm(forms.ModelForm):
         self.helper.layout = Layout(
              'calendar',
                "church",
+               HTML("""{% if form.errors %}<div class="alert alert-danger" >{{ form.errors }}</div>{% endif %}"""),
            Row(
                
                Column('event'),
