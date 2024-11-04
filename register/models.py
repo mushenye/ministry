@@ -35,7 +35,7 @@ class Child(models.Model):
                 self.slug = f'{base_slug}-{uuid.uuid4().hex[:6]}'
         return super().save(*args, **kwargs)
 
-
+    @property
     def age(self):
         today = datetime.date.today()
         return today.year - self.date_of_birth.year - ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
@@ -43,11 +43,11 @@ class Child(models.Model):
     def __str__(self):
             return '{} {}' .format(self.first_name, self.last_name)
     
-    
+    @property
     def rate (self):
         calendar=ChildrenMinistryEvent.objects.filter(is_on_date=True).count()
-        percent_rate= (self.attendance_rate/calendar)*100
-        return round(percent_rate)
+        percent_rate=round(float((self.attendance_rate/calendar)*100),2)
+        return percent_rate
 
     
 
@@ -72,7 +72,7 @@ class ChildImage(models.Model):
                 img.thumbnail(output_size)
                 img.save(self.image.path)
 
-    # 
+    
     def __str__(self):
             return '{} {}' .format(self.child.first_name, self.child.last_name)
     
@@ -84,6 +84,9 @@ class Parent(models.Model):
     mother_name=models.CharField(max_length=100,blank=True, null=True)
     mother_phone_number=models.IntegerField(blank=True, null=True)
     home_county=models.CharField( choices=COUNTY,max_length=20, blank=True, null=True)
+
+
+
 
     def __str__(self):
         return '{} {}' .format(self.child.first_name, self.child.last_name)
@@ -125,7 +128,7 @@ class Event(models.Model):
     calendar=models.ForeignKey(ChildrenMinistryEvent, on_delete=models.CASCADE)
     church=models.CharField(max_length=20)
     date_created=models.DateField(auto_now=True)
-    event=models.CharField(choices=EVENT, max_length=100)
+    event=models.CharField( max_length=100)
     associate=models.CharField(max_length=100, default=None)
     duration=models.IntegerField(default=0)
     

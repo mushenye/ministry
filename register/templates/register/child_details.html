@@ -78,7 +78,7 @@
           <tr>
             <th>Father Details:</th>
             <td>
-              {% if parent.father_name %} {{parent.father_name}} {% else%} _ {% endif%}
+              {% if parent.father_name %} {{parent.father_name.title}} {% else%} _ {% endif%}
             </td>
           </tr>
           <tr>
@@ -92,7 +92,7 @@
           <tr>
             <th>Mother Details:</th>
             <td>
-              {% if parent.mother_name %} {{parent.mother_name}} {%else%} _ {% endif %}
+              {% if parent.mother_name %} {{parent.mother_name.title}} {%else%} _ {% endif %}
             </td>
           </tr>
           <tr>

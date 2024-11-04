@@ -16,6 +16,15 @@ GENDER =(
         ('Girl', 'Girl'),
        
 )
+EDUCATION=[
+    ('Degree', 'Degree'),
+    ('Diploma', 'Diploma'),
+    ('Certificate', 'Certificate'),
+    ('Secondary', 'Secondary'),
+    ('Primary', 'Primary'),
+]
+
+
 TALENT=(
     ('Praise & Worship','Praise & Worship'),
     ('Giving','Giving'),
@@ -117,4 +126,8 @@ COUNTY=[
 TRANSPORT_MEANS=[
     ('MotorBike','MotorBike'),
     ('Van','Van'),
-]
+]  
+
+
+
+print(EVENT)

@@ -6,6 +6,7 @@ from django.core.files.base import File
 from django.db.models.base import Model
 from django.forms.utils import ErrorList
 
+from register.choices import EVENT
 from register.models import  ChildrenMinistryEvent, Child, ChildImage, Event, EventActivity, OrderOfEvent, Parent
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout,Row, Column, HTML, Fieldset
@@ -241,14 +242,17 @@ class EventActivityForm(forms.ModelForm):
             self.fields['procession_of_events'].help_text ='You can add your day scriptures and day program '
 
 
+
              
 class EventForm(forms.ModelForm):
+    
     
     class Meta:
         model = Event
         fields = '__all__'
+        
         widgets = {
-			'event': forms.Select(choices=[]),
+			'event': forms.Select(choices=EVENT),
 		}
 
     def __init__(self, *args, **kwargs) :

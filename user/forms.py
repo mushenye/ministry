@@ -28,7 +28,7 @@ class MySetPasswordForm(SetPasswordForm):
 
 
 class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(required=True, help_text='Enter correct Email address')
     
     class Meta:
         model = CustomUser

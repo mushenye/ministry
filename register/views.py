@@ -15,16 +15,15 @@ from register.models import Attendance, Child, ChildImage, Event, EventActivity,
 today = datetime.date.today()
 
 
-
-
 def index(request):
     return render(request, 'register/home.html')
+
+
 
 def add_child(request):
     if request.method =="POST":
         form =RegisterForm(request.POST)
         if form.is_valid():
-
 
             child=form.save()
             ChildImage.objects.create(child=child)
@@ -74,7 +73,7 @@ def edit_child_details(request,slug):
 
 # Fuction add image 
 def add_image(request, pk):
-    # try block check if unknow pk value is passed to the function 
+    # try catch error if unknow imagei_id  is passed to the function 
     try:
         image = ChildImage.objects.get(id=pk)
 
@@ -84,9 +83,7 @@ def add_image(request, pk):
 
     # check if its a post request.
     if request.method == "POST":
-        
         form = ImageForm(request.POST, request.FILES, instance=image)
-
         # validate the form 
         if form.is_valid():
             #try block  catches errors that may arise when saving data to the data base 
@@ -147,9 +144,9 @@ def child_view(request):
 
 
     if total > 0:
-        percent = int((current_count / total) * 100)
+        percent = round(float((current_count / total) * 100),2)
     else:
-        percent = 0  # Avoid divide by zero if no children exist at all
+        percent = 0  
     
     return render(request, 'register/view.html', {
         'percent': percent,
@@ -174,6 +171,9 @@ def view_child_details(request, slug):
         
     return render(request, 'register/child_details.html',
                   {'child_details':child_details, 'parent':parent,'child_image':child_image})  
+
+
+
 
 
 
@@ -233,11 +233,12 @@ def create_attendance(request,slug):
         attendance =Attendance.objects.filter(activity=calendar_event)
         if user.local_church:
             OrderOfEvent.objects.get_or_create(local_church=user.local_church, calendar=calendar_event)
+  
 
         total_child=attendance.count() 
         present=attendance.filter(in_attendance=True).count()
         absent=total_child-present
-        rate=int(present/total_child *100)
+        rate=round(float(present/total_child *100),2)
         value= (present/total_child)*360
 
         return render( request,'register/attendance.html' , {
@@ -312,14 +313,13 @@ def create_event(request, slug):
 
 
 def event_form(request, slug):
-
     user = request.user
     church = user.local_church
     calendar = get_object_or_404(ChildrenMinistryEvent, slug=slug)
-    events = Event.objects.filter(calendar=calendar, church=church)   
-    initial_data = {'calendar': calendar, 'church': church}
-
-    today = datetime.date.today()
+    events = Event.objects.filter(calendar=calendar, church=church)  
+    initial_data = {'calendar': calendar, 'church': church }
+    
+    # today = datetime.date.today()
     if today <= calendar.on_date:
         if request.method == "POST":
             form = EventForm(request.POST, initial=initial_data)
@@ -331,7 +331,7 @@ def event_form(request, slug):
                 try:
                     for item in events:
                         if item.event==event:
-                                raise forms.ValidationError({'__all__': 'Duplicate event'})                        
+                                raise forms.ValidationError({'event ': 'Duplicate event'})                        
                     if 'add_more' in request.POST:
                         event_registration.save()
                         return redirect('event', calendar.slug)
@@ -344,7 +344,9 @@ def event_form(request, slug):
                     messages.warning(request, f'{event} already exits, choose another event')
                     
         else:
+         
             form = EventForm(initial=initial_data)
+            # form.fields["event"].queryset =new_event
           
 
         return render(request, 'register/event_form.html', {'form': form, 'calendar': calendar})
