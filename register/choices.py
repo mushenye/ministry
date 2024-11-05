@@ -130,4 +130,3 @@ TRANSPORT_MEANS=[
 
 
 
-print(EVENT)
